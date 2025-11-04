@@ -1,0 +1,97 @@
+
+
+:root {
+  --bg: #0f1220;
+  --card: #171b2e;
+  --muted: #9aa3b2;
+  --text: #e8ecf4;
+  --accent: #7c9cff;
+  --accent-2: #42d392;
+  --danger: #ff6b6b;
+  --border: #2a3150;
+  --border-strong: #5f6aa3;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+  background: radial-gradient(1000px 600px at 10% 10%, #141a2f, #0c0f1a), var(--bg);
+  color: var(--text);
+}
+.wrap {
+  max-width: 1000px; margin: 0 auto; padding: 24px 16px 56px;
+}
+header { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+h1 { font-size: clamp(20px, 3vw, 28px); margin: 0; }
+.meta, .progress { color: var(--muted); font-size: 14px; }
+
+.banner { margin: 16px 0 8px; padding: 12px 16px; border-radius: 14px;
+  border: 1px dashed var(--border); color: var(--muted); background: rgba(124,156,255,0.06);
+}
+.banner strong { color: var(--text); }
+
+/* Динамическая область */
+.stage { margin-top: 12px; display: grid; gap: 16px; }
+
+/* Карточка вопроса */
+.qcard {
+  border: 1px solid var(--border); background: linear-gradient(180deg, #161a2c, #12162a);
+  border-radius: 18px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  transition: border-color .2s ease, transform .06s ease; position: relative; overflow: clip;
+}
+.qcard:hover { border-color: var(--border-strong); }
+.qcard:active { transform: scale(0.997); }
+
+.qhead { display:flex; align-items:center; gap: 10px; }
+.qnum {
+  flex:0 0 auto; width: 36px; height: 36px; display:grid; place-items:center; border-radius: 10px;
+  background: #11152a; border: 1px solid var(--border); color: var(--accent);
+  font-weight: 700;
+}
+.qtitle { font-size: clamp(16px, 2.2vw, 20px); line-height: 1.35; }
+
+.marker { margin-left: auto; display:flex; align-items:center; gap:6px; }
+.marker svg { width: 20px; height: 20px; }
+
+/* Ответы */
+.answers { margin-top: 12px; display:grid; gap:10px; }
+.ans {
+  border: 1.5px solid var(--border); border-radius: 14px; background: #0f1426;
+  padding: 12px 14px; cursor: pointer; user-select: none; position: relative; display:flex; gap:10px;
+  align-items: flex-start; transition: transform .12s ease, border-color .15s ease, box-shadow .15s ease;
+}
+/* При наведении у блока увеличивается рамочка */
+.ans:hover { border-color: var(--border-strong); box-shadow: 0 4px 16px rgba(124,156,255,.12); }
+/* При нажатии блок слегка увеличивается */
+.ans:active { transform: scale(1.02); }
+
+/* Верный ответ разворачивается, появляется пояснение */
+.ans.expanded { transform: scale(1.03); border-color: var(--accent-2); box-shadow: 0 8px 24px rgba(66,211,146,.18); }
+.explain { margin-top: 8px; color: var(--muted); display:none; font-size: 14px; }
+.ans.expanded .explain { display:block; }
+
+/* Полоса «вопросы закончились» */
+.finished-banner { display:none; margin: 12px 0; padding: 12px 16px; border-radius: 14px;
+  background: rgba(66,211,146,0.08); border:1px solid rgba(66,211,146,0.3);
+}
+.finished-banner.show { display:block; }
+
+/* Статистика */
+.stats { display:none; border: 1px solid var(--border); border-radius: 16px; padding: 14px 16px; background:#10152a; }
+.stats.show { display:block; }
+
+/* Режим обзора (после завершения) */
+.review-note { display:none; color: var(--muted); font-size:14px; margin: 8px 0 0; }
+.review-note.show { display:block; }
+
+/* Анимации сдвига вправо (по условию варианта) */
+.slide-right { animation: slideRight .65s ease forwards; }
+@keyframes slideRight {
+  from { transform: translateX(0); opacity:1; }
+  to   { transform: translateX(60%); opacity:0; }
+}
+
+/* Адаптивность */
+@media (min-width: 680px) {
+  .stage { grid-template-columns: 1fr; }
+}
