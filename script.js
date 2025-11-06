@@ -93,6 +93,12 @@ function buildQCard(q, idx, total) {
   marker.className = 'marker';
   marker.style.minWidth = '24px';
 
+  if (reviewMode && q.userAnswered) {
+    const correct = !!q.userCorrect;
+    marker.style.color = correct ? 'var(--accent-2)' : 'var(--danger)';
+    marker.innerHTML = correct ? svgCheck() : svgCross();
+  }
+
   head.append(num, title, marker);
 
   const list = document.createElement('div');
@@ -113,6 +119,8 @@ function buildQCard(q, idx, total) {
 
       const correct = !!opt.ok;
       if (correct) score++;
+      q.userAnswered = true;
+      q.userCorrect = correct;
 
       marker.style.color = correct ? 'var(--accent-2)' : 'var(--danger)';
       marker.innerHTML = correct ? `${svgCheck()} Верно` : `${svgCross()} Неверно`;
@@ -182,7 +190,7 @@ function mountCurrent() {
     elStats.innerHTML = `<strong>Статистика:</strong> верно ${score} из ${shuffledQs.length}`;
 
     elReviewNote.classList.add('show');
-    elReviewNote.textContent = 'Режим обзора: нажмите на заголовок вопроса, чтобы показать правильный ответ. Одновременно раскрывается только один.';
+    elReviewNote.textContent = 'Режим обзора: зелёная галочка — ответ верный, красный крестик — нет. Нажмите на заголовок, чтобы раскрыть правильный вариант (только один за раз).';
 
     setProgress(shuffledQs.length, shuffledQs.length);
     reviewMode = true;
